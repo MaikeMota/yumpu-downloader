@@ -8,7 +8,10 @@
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build-prod": "ng build --prod --base-href https://maikemota.github.io/yumpu-downloader/",
+    "gh-pages": "ngh --repo=https://cebfccec6d9edb380269c8bf4817606e73f2fd30@github.com/MaikeMota/yumpu-downloader.git",
+    "deploy": "npm run build-prod && npm run gh-pages"
   },
   "private": true,
   "dependencies": {
