@@ -1,7 +1,6 @@
 img, object {
     display: inline-block;
     height: 100%;
-
 }
 object {
     text-align: center;
@@ -9,24 +8,78 @@ object {
     width: 100%;
     height: 100%;
 }
+:host {
+    padding: 5px;
+}
 
 .container {
+    margin: 0 auto;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
     position: relative;
     width: 80%;
+    height: 95vh;
+   /*  background: blue; */
 }
 
-.container .image-preview, .container .pdf-preview {
+.input-container {
+    padding: 1.5em;
+    border: none;
+}
+
+.input-container > input {
+    display: block;
+    width: 100%;
+    border-radius: 10px;
+    height: 32px;
+}
+
+.inner-container {    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.image-preview, .pdf-preview {
     position: relative;
     box-sizing: border-box;
-    padding: 1em;
     display: inline-block;
     text-align: center;
-    width: calc(50% - 1em);
-    height: 700px;
+    width: 50%;
+    height: 100%;
 }
-.container .pdf-preview {
+
+/* .image-preview {
     background: green;
 }
-.container .pdf-preview {
+.pdf-preview {
     background: yellow;
+} */
+
+.image-preview .document-preview {    
+    height: 100%;
+    width: 100%
+}
+
+.document-preview .image-container {
+    height: 85%;
+}
+.document-preview .document-title {
+    height: 5%
+}
+.document-preview .image-controllers {
+    margin-top: 15px;
+    height: 5%;
+
+}
+.document-preview .image-controllers button { 
+    margin: 0 5px 0 5px; 
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border: none;
+    box-shadow: inset 0 0 0px 2px #7070705e;
+    background-color: whitesmoke;
 }
