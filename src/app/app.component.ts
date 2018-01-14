@@ -12,6 +12,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import * as jsPDF from 'jspdf'
 
+import { environment } from '../environments/environment';
+
 
 @Component({
   selector: 'app-root',
@@ -31,20 +33,20 @@ export class AppComponent {
   }
 
   public doc: YumpuDocument;
-  private actualPage = 0;
+  private _actualPage = 0;
 
   constructor(private service: YumpuService, private domSanitazer: DomSanitizer) {
 
   }
 
   public nextPage() {
-    if (this.actualPage < this.doc.pages.length - 1)
-      this.actualPage++;
+    if (this._actualPage < this.doc.pages.length - 1)
+      this._actualPage++;
   }
 
   public previousPage() {
-    if (this.actualPage > 0) {
-      this.actualPage--;
+    if (this._actualPage > 0) {
+      this._actualPage--;
     }
   }
 
@@ -71,5 +73,13 @@ export class AppComponent {
     document.execCommand("paste");
     pasteText.blur();
     //alert("Copied the text: " + copyText.value);
+  }
+
+  public get actualPage(): number {
+    return this._actualPage;
+  }
+
+  public get isDevMod(): boolean {
+    return !environment.production;
   }
 }
