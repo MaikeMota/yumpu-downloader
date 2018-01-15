@@ -22,7 +22,10 @@
         "styles.css",
         "../node_modules/font-awesome/scss/font-awesome.scss"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/jspdf/dist/jspdf.min.js",
+        "../node_modules/jszip/dist/jszip.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
