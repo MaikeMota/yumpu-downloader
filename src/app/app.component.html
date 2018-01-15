@@ -2,33 +2,44 @@
 <div class="container">
   <div class="input-container">
     <input id="paste" placeholder="Entre com a URL do Yumpu" (change)="onChangeURL($event)">
+    <span *ngIf="errorMessage"> {{errorMessage}}</span>
   </div>
   <div class="inner-container">
 
     <div class="image-preview">
 
-      <div class="document-preview" *ngIf="doc">
+      <div class="document-preview" *ngIf="yumpuDocument">
 
         <div class="document-title">
-          {{doc.name}}
+          {{yumpuDocument.name}}
         </div>
 
         <div class="image-container">
-          <img [title]="actualPage+1" [src]="doc.pages[actualPage]?.data">
+          <a [href]="yumpuDocument.pages[actualPage]?.data" [download]="actualPage + 1 + '.jpg'">
+            <img [title]="actualPage+1" [src]="yumpuDocument.pages[actualPage]?.data">
+          </a>
         </div>
 
         <div class="image-controllers">
 
-          <button i-button (click)="previousPage()" title="Página anterior">
+          <button (click)="previousPage()" title="Página anterior">
             <i class="fa fa-angle-double-left fa-2x"></i>
           </button>
 
-          <button i-button (click)="nextPage()" title="Próxima página">
+          <button (click)="nextPage()" title="Próxima página">
             <i class="fa fa-angle-double-right fa-2x"></i>
           </button>
 
-          <button i-button (click)="download()" [title]="'Baixar ' + doc.name + '.pdf'  ">
-            <i class="fa fa-download fa-2x"></i>
+          <!--  <button [title]="'Baixar ' + actualPage + '.jpg'" (click)=downloadPage()>
+            <img src="../assets/jpg-icon.svg">
+          </button>
+ -->
+
+          <button (click)="downloadAsZIP()" [title]="'Baixar ' + yumpuDocument.name + '.zip'  ">
+            <i class="fa fa-file-archive-o fa-2x"></i>
+          </button>
+          <button (click)="downloadAsPDF()" [title]="'Baixar ' + yumpuDocument.name + '.pdf'  ">
+            <i class="fa fa-file-pdf-o fa-2x"></i>
           </button>
 
         </div>
@@ -44,6 +55,6 @@
   </div>
 </div>
 <div *ngIf="isDevMod">
-  <button i-button (click)="changeValue()">AQUI</button>
+  <button (click)="changeValue()">AQUI</button>
   <input id="copy" value="https://www.yumpu.com/xx/document/view/59723392/loop-bolsas-outono-inverno-2018">
 </div>

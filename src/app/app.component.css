@@ -1,6 +1,7 @@
 img, object {
     display: inline-block;
-    height: 100%;
+    max-height: 100%;
+    max-width: 100%;
 }
 object {
     text-align: center;
@@ -33,6 +34,11 @@ object {
     width: 100%;
     border-radius: 10px;
     height: 32px;
+}
+
+.input-container > span {
+    color: red;
+    text-transform: uppercase;
 }
 
 .inner-container {    
