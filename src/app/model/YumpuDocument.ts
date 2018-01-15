@@ -1,4 +1,5 @@
-import * as jsPDF from 'jspdf'
+import * as jszip from 'jszip';
+import * as jsPDF from 'jspdf';
 
 import { YumpuDocumentPage } from "./YumpuDocumentPage";
 
@@ -7,4 +8,5 @@ export interface YumpuDocument {
     name: string;
     pages: YumpuDocumentPage[];    
     asPDF?: jsPDF;
+    asZIP?: Blob;
 }
