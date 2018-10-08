@@ -18,9 +18,11 @@ export class YumpuService {
   public async retrieveDocumentFromURL(url: string): Promise<YumpuDocument> {
     let matchs: RegExpMatchArray = url.match(PLACEHOLDERS.URL_REGEX);
     if (matchs) {
-      let documentId = matchs[1];
-      let documentName = matchs[2];
-      let jsonApiUrl = YumpuURLs.JSON_API.replace(PLACEHOLDERS.DOCUMENT_ID, documentId);
+      let language = matchs[1];
+      let documentId = matchs[2];
+      let documentName = matchs[3];
+      let jsonApiUrl = YumpuURLs.JSON_API.replace(PLACEHOLDERS.LANGUAGE, language)
+        .replace(PLACEHOLDERS.DOCUMENT_ID, documentId);
       let totalPages = await this.getTotalPages(jsonApiUrl);
       let yDoc: YumpuDocument = {
         id: documentId,
@@ -60,7 +62,10 @@ export class YumpuService {
 
   public async getPage(documentId: string, pageNumber: number): Promise<YumpuDocumentPage> {
     return new Promise<YumpuDocumentPage>((resolve, reject) => {
-      this.httpClient.get(`https://img.yumpu.com/${documentId}/${pageNumber}/1024x768`, {
+      let requestUrl = YumpuURLs.IMAGE_API.replace(PLACEHOLDERS.DOCUMENT_ID, documentId)
+        .replace(PLACEHOLDERS.PAGE_NUMBER, pageNumber.toString())
+        .replace(PLACEHOLDERS.RESOLUTION, '1024x768')
+      this.httpClient.get(requestUrl, {
         responseType: 'blob'
       }).toPromise()
         .then((res: any) => {
@@ -97,11 +102,15 @@ export class YumpuService {
 
 const PLACEHOLDERS = {
   DOCUMENT_ID: '{DOCUMENT_ID}',
-  URL_REGEX: /^https:\/\/www\.yumpu\.com\/xx\/document\/view\/([\d]*)\/([\w-]*)$/,
+  LANGUAGE: '{LANGUAGE}',
+  PAGE_NUMBER: '{PAGE_NUMBER}',
+  RESOLUTION: '{RESOLUTION}',
+  URL_REGEX: /^https:\/\/www\.yumpu\.com\/([\w-]*)\/document\/view\/([\d]*)\/([\w-]*)$/,
 }
 
 const YumpuURLs = {
-  JSON_API: `https://www.yumpu.com/xx/document/json/${PLACEHOLDERS.DOCUMENT_ID}`,
+  IMAGE_API: `https://img.yumpu.com/${PLACEHOLDERS.DOCUMENT_ID}/${PLACEHOLDERS.PAGE_NUMBER}/${PLACEHOLDERS.RESOLUTION}`,
+  JSON_API: `https://www.yumpu.com/${PLACEHOLDERS.LANGUAGE}/document/json/${PLACEHOLDERS.DOCUMENT_ID}`,
 
 }
 
