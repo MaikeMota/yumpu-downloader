@@ -5,6 +5,9 @@
     <span *ngIf="errorMessage"> {{errorMessage}}</span>
   </div>
   <div class="inner-container">
+    <span *ngIf="loading">
+      <i class="fa fa-spinner fa-4x rotating-icon" aria-hidden="true"></i>
+    </span>
 
     <div class="image-preview">
 
@@ -15,9 +18,7 @@
         </div>
 
         <div class="image-container">
-          <a [href]="yumpuDocument.pages[actualPage]?.data" [download]="actualPage + 1 + '.jpg'">
-            <img [title]="actualPage+1" [src]="yumpuDocument.pages[actualPage]?.data">
-          </a>
+          <img [title]="actualPage+1" [src]="yumpuDocument.pages[actualPage]?.data">
         </div>
 
         <div class="image-controllers">
@@ -30,11 +31,9 @@
             <i class="fa fa-angle-double-right fa-2x"></i>
           </button>
 
-          <!--  <button [title]="'Baixar ' + actualPage + '.jpg'" (click)=downloadPage()>
-            <img src="../assets/jpg-icon.svg">
+          <button (click)="downloadAsPng()" [title]="'Baixar ' + (actualPage + 1) + '.png'">
+            <i class="fa fa-file-image-o fa-2x"></i>
           </button>
- -->
-
           <button (click)="downloadAsZIP()" [title]="'Baixar ' + yumpuDocument.name + '.zip'  ">
             <i class="fa fa-file-archive-o fa-2x"></i>
           </button>
@@ -56,5 +55,5 @@
 </div>
 <div *ngIf="isDevMod">
   <button (click)="changeValue()">AQUI</button>
-  <input id="copy" value="https://www.yumpu.com/xx/document/view/59723392/loop-bolsas-outono-inverno-2018">
+  <input id="copy" value="https://www.yumpu.com/en/document/view/59723392/loop-bolsas-outono-inverno-2018">
 </div>

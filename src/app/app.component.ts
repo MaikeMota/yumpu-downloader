@@ -24,6 +24,7 @@ import { FileUtil } from './utils/FileUtil';
 export class AppComponent {
   title = 'app';
 
+  private _loading: boolean = false;
   private _preview;
   private _errorMessage: string;
 
@@ -52,33 +53,30 @@ export class AppComponent {
     }
   }
 
-  public downloadPage() {
-    var url = this.yumpuDocument.pages[this.actualPage].data;
-    location.href = url;
-  }
-
   public downloadAsPDF() {
     this.yumpuDocument.asPDF.save(this.yumpuDocument.name);
   }
 
+  public downloadAsPng() {
+    let fileName = `${this._actualPage + 1}.jpg`;
+    FileUtil.downloadFromMemory(fileName, this.yumpuDocument.pages[this.actualPage].data);
+  }
+
   public downloadAsZIP() {
-    let a = document.createElement("a");
-    document.body.appendChild(a);
-    let url = window.URL.createObjectURL(this.yumpuDocument.asZIP);
-    a.href = url;
-    a.download = this.yumpuDocument.name + '.zip';
-    a.click();
-    document.body.removeChild(a)
-    window.URL.revokeObjectURL(url);
+    let fileName = this.yumpuDocument.name + '.zip';
+    FileUtil.downloadFromMemory(fileName, this.yumpuDocument.asZIP);
   }
 
   public onChangeURL($event) {
+    this._loading = true;
     this.service
       .retrieveDocumentFromURL($event.target.value)
       .then((document) => {
         this.yumpuDocument = document;
+        this._loading = false;
       }).catch((error: YumpuServiceError) => {
         this.handleError(error);
+        this._loading = false;
       });
   }
 
@@ -106,6 +104,10 @@ export class AppComponent {
 
   public get isDevMod(): boolean {
     return !environment.production;
+  }
+
+  public get loading(): boolean {
+    return this._loading;
   }
 
   public get errorMessage(): string {
